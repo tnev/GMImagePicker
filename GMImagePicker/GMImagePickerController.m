@@ -106,6 +106,13 @@
     return _pickerStatusBarStyle;
 }
 
+#pragma mark - Rotation
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 
 #pragma mark - Setup Navigation Controller
 
