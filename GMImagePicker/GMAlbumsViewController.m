@@ -165,8 +165,10 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
             //Albums collections are allways PHAssetCollectionType=1 & PHAssetCollectionSubtype=2
             
             PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
-            [userFetchResultArray addObject:assetsFetchResult];
-            [userFetchResultLabel addObject:collection.localizedTitle];
+            if(assetsFetchResult.count>0) {
+                [userFetchResultArray addObject:assetsFetchResult];
+                [userFetchResultLabel addObject:collection.localizedTitle];
+            }
         }
     }
     
