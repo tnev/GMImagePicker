@@ -199,8 +199,8 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
         }
     }
     
-    self.collectionsFetchResultsAssets= @[allFetchResultArray,userFetchResultArray,smartFetchResultArray];
-    self.collectionsFetchResultsTitles= @[allFetchResultLabel,userFetchResultLabel,smartFetchResultLabel];
+    self.collectionsFetchResultsAssets= @[allFetchResultArray,smartFetchResultArray,userFetchResultArray];
+    self.collectionsFetchResultsTitles= @[allFetchResultLabel,smartFetchResultLabel,userFetchResultLabel];
 }
 
 
@@ -363,6 +363,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     //Tip: Returning nil hides the section header!
+    return nil;
     
     NSString *title = nil;
     if (section > 0) {
