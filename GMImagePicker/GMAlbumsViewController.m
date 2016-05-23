@@ -270,6 +270,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
     // Fetch options for album thumbs
     PHImageRequestOptions *requestOptions = [PHImageRequestOptions new];
     requestOptions.networkAccessAllowed = YES;
+    requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
     requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
     
     // Set the 3 images (if exists):
