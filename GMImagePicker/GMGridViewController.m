@@ -55,6 +55,7 @@
 @property (nonatomic, weak) GMImagePickerController *picker;
 @property (strong) PHCachingImageManager *imageManager;
 @property CGRect previousPreheatRect;
+@property (nonatomic) PHImageRequestOptions *requestOptions;
 
 @end
 
@@ -71,6 +72,12 @@ NSString * const GMGridViewCellIdentifier = @"GMGridViewCellIdentifier";
 
 -(id)initWithPicker:(GMImagePickerController *)picker
 {
+    //Fetch options for album thumbs
+    self.requestOptions = [PHImageRequestOptions new];
+    self.requestOptions.networkAccessAllowed = YES;
+    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    self.requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    
     //Custom init. The picker contains custom information to create the FlowLayout
     self.picker = picker;
     
@@ -186,7 +193,7 @@ NSString * const GMGridViewCellIdentifier = @"GMGridViewCellIdentifier";
         [self.imageManager requestImageForAsset:cell.asset
                                      targetSize:AssetGridThumbnailSize
                                     contentMode:PHImageContentModeAspectFill
-                                        options:nil
+                                        options:self.requestOptions
                                   resultHandler:^(UIImage *result, NSDictionary *info)
                                     {
                                         // Only update the thumbnail if the cell tag hasn't changed. Otherwise, the cell has been re-used.
@@ -336,7 +343,7 @@ NSString * const GMGridViewCellIdentifier = @"GMGridViewCellIdentifier";
         [self.imageManager requestImageForAsset:asset
                                      targetSize:AssetGridThumbnailSize
                                     contentMode:PHImageContentModeAspectFill
-                                        options:nil
+                                        options:self.requestOptions
                                   resultHandler:^(UIImage *result, NSDictionary *info) {
                                       
                                       // Only update the thumbnail if the cell tag hasn't changed. Otherwise, the cell has been re-used.
@@ -556,11 +563,11 @@ NSString * const GMGridViewCellIdentifier = @"GMGridViewCellIdentifier";
         [self.imageManager startCachingImagesForAssets:assetsToStartCaching
                                             targetSize:AssetGridThumbnailSize
                                            contentMode:PHImageContentModeAspectFill
-                                               options:nil];
+                                               options:self.requestOptions];
         [self.imageManager stopCachingImagesForAssets:assetsToStopCaching
                                            targetSize:AssetGridThumbnailSize
                                           contentMode:PHImageContentModeAspectFill
-                                              options:nil];
+                                              options:self.requestOptions];
         
         self.previousPreheatRect = preheatRect;
     }
