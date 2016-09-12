@@ -144,7 +144,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
     {
         PHFetchOptions *options = [[PHFetchOptions alloc] init];
         options.predicate = [NSPredicate predicateWithFormat:@"mediaType in %@", self.picker.mediaTypes];
-        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
         PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsWithOptions:options];
         [allFetchResultArray addObject:assetsFetchResult];
         [allFetchResultLabel addObject:NSLocalizedStringFromTableInBundle(@"picker.table.all-photos-label",  @"GMImagePicker", [NSBundle bundleForClass:GMImagePickerController.class], @"All photos")];
@@ -159,7 +159,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
         {
             PHFetchOptions *options = [[PHFetchOptions alloc] init];
             options.predicate = [NSPredicate predicateWithFormat:@"mediaType in %@", self.picker.mediaTypes];
-            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+            options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
             PHAssetCollection *assetCollection = (PHAssetCollection *)collection;
             
             //Albums collections are allways PHAssetCollectionType=1 & PHAssetCollectionSubtype=2
@@ -187,7 +187,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
             {
                 PHFetchOptions *options = [[PHFetchOptions alloc] init];
                 options.predicate = [NSPredicate predicateWithFormat:@"mediaType in %@", self.picker.mediaTypes];
-                options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+                options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
                 
                 PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
                 if(assetsFetchResult.count>0)
@@ -267,6 +267,12 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
         cell.detailTextLabel.textColor = self.picker.pickerTextColor;
     }
     
+    // Fetch options for album thumbs
+    PHImageRequestOptions *requestOptions = [PHImageRequestOptions new];
+    requestOptions.networkAccessAllowed = YES;
+    requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
+    requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    
     // Set the 3 images (if exists):
     if ([assetsFetchResult count] > 0) {
         CGFloat scale = [UIScreen mainScreen].scale;
@@ -278,7 +284,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
         [self.imageManager requestImageForAsset:asset
                                      targetSize:tableCellThumbnailSize1
                                     contentMode:PHImageContentModeAspectFill
-                                        options:nil
+                                        options:requestOptions
                                   resultHandler:^(UIImage *result, NSDictionary *info) {
              if (cell.tag == currentTag) {
                  cell.imageView1.image = result;
@@ -294,7 +300,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
             [self.imageManager requestImageForAsset:asset
                                          targetSize:tableCellThumbnailSize2
                                         contentMode:PHImageContentModeAspectFill
-                                            options:nil
+                                            options:requestOptions
                                       resultHandler:^(UIImage *result, NSDictionary *info) {
                  if (cell.tag == currentTag) {
                      cell.imageView2.image = result;
@@ -310,7 +316,7 @@ static NSString * const CollectionCellReuseIdentifier = @"CollectionCell";
             [self.imageManager requestImageForAsset:asset
                                          targetSize:tableCellThumbnailSize3
                                         contentMode:PHImageContentModeAspectFill
-                                            options:nil
+                                            options:requestOptions
                                       resultHandler:^(UIImage *result, NSDictionary *info) {
                  if (cell.tag == currentTag) {
                      cell.imageView3.image = result;
