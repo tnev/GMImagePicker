@@ -75,8 +75,8 @@ NSString * const GMGridViewCellIdentifier = @"GMGridViewCellIdentifier";
     //Fetch options for album thumbs
     self.requestOptions = [PHImageRequestOptions new];
     self.requestOptions.networkAccessAllowed = YES;
-    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-    self.requestOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
+    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+    self.requestOptions.resizeMode = PHImageRequestOptionsResizeModeFast;
     
     //Custom init. The picker contains custom information to create the FlowLayout
     self.picker = picker;
